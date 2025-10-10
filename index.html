@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>عيد ميلاد سعيد — لأبونا 🎉</title>
+<style>
+  :root{
+    --bg1:#e0f7ff; --bg2:#b3e0ff; --accent:#0a2239; --gold:#0077cc;
+    --card:#ffffff; --muted:#3b4b5a;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%; margin:0; font-family: "Noto Naskh Arabic", "Segoe UI", Tahoma, Arial; -webkit-font-smoothing:antialiased}
+  body{
+    background: linear-gradient(180deg,var(--bg1),var(--bg2));
+    color:var(--accent);
+    display:flex; align-items:center; justify-content:center; padding:24px;
+  }
+
+  .wrap{ width:100%; max-width:1000px; margin:auto; display:grid; grid-template-columns: 1fr 420px; gap:20px; align-items:center; }
+  @media(max-width:880px){ .wrap{ grid-template-columns:1fr; padding-bottom:40px } }
+
+  .main-card{ background:var(--card); border-radius:14px; padding:28px; box-shadow:0 20px 40px rgba(0,0,0,0.06) }
+  .side-card{ background:linear-gradient(180deg, rgba(255,255,255,0.95), rgba(240,248,255,0.98)); border-radius:14px; padding:18px; box-shadow:0 14px 30px rgba(0,0,0,0.05) }
+
+  h1{ margin:0; font-size:clamp(20px,4.4vw,34px); font-weight:900; color:var(--accent) }
+  .subtitle{ margin-top:6px; color:var(--muted) }
+
+  .hero-msg{ margin-top:18px; font-size:18px; line-height:1.7; text-align:right; }
+
+  .countdown{ display:flex; gap:10px; margin-top:18px; flex-wrap:wrap }
+  .unit{ background:linear-gradient(180deg,#e6f3ff,#ffffff); padding:12px 14px; border-radius:10px; min-width:86px; text-align:center; box-shadow:0 8px 18px rgba(0,0,0,0.04) }
+  .unit .num{ font-weight:900; font-size:18px; color:var(--gold) }
+  .unit .lbl{ display:block; font-size:12px; color:var(--muted); margin-top:6px }
+
+  .actions{ margin-top:18px; display:flex; gap:12px; flex-wrap:wrap; align-items:center }
+  .btn{ padding:10px 16px; border-radius:999px; border:0; cursor:pointer; font-weight:800; background:var(--gold); color:white }
+  .btn.secondary{ background:transparent; border:1px solid rgba(0,0,0,0.06); color:var(--accent) }
+
+  .photo{ width:100%; height:300px; border-radius:10px; object-fit:cover; background:linear-gradient(180deg,#d0eaff,#eaf6ff); display:block }
+  .photo-placeholder{ display:flex; align-items:center; justify-content:center; height:300px; border-radius:10px; color:var(--muted); font-weight:700; background:linear-gradient(180deg,#e8f5ff,#f5fbff); }
+
+  .age-badge{ margin-top:12px; font-weight:900; color:var(--accent); font-size:20px }
+  .note{ margin-top:10px; color:var(--muted); font-size:13px }
+
+  /* final greeting area */
+  .final{ margin-top:18px; padding:14px; border-radius:10px; background:linear-gradient(180deg,#e6f3ff,#ffffff); box-shadow:0 8px 20px rgba(0,0,0,0.04) }
+  .final h2{ margin:0; font-size:20px; color:var(--accent) }
+  .final p{ margin:8px 0 0 0; color:var(--muted); line-height:1.6 }
+
+  .footer-small{ margin-top:12px; font-size:12px; color:var(--muted) }
+
+</style>
+</head>
+<body>
+  <div class="wrap" role="main">
+
+    <!-- LEFT: main content -->
+    <div class="main-card">
+      <h1 id="title">🎂 عيد ميلاد سعيد يا بابا 💙</h1>
+      <div class="subtitle" id="subtitle">نحتفل بذكراك الجميلة يوم 30 أكتوبر</div>
+
+      <div class="hero-msg" id="heroMsg">
+        كل سنة وأنت طيب يا أحسن أب في الدنيا 🌟  
+        ربنا يخليك لينا دايمًا يا بابا ويبارك في عمرك ويزيدك صحة وسعادة يا أحن قلب 💙
+      </div>
+
+      <div class="countdown" aria-live="polite" id="countdown">
+        <div class="unit"><div class="num" id="cd_days">0</div><div class="lbl">يوم</div></div>
+        <div class="unit"><div class="num" id="cd_hours">0</div><div class="lbl">ساعة</div></div>
+        <div class="unit"><div class="num" id="cd_minutes">0</div><div class="lbl">دقيقة</div></div>
+        <div class="unit"><div class="num" id="cd_seconds">0</div><div class="lbl">ثانية</div></div>
+      </div>
+
+      <div class="actions">
+        <button id="revealBtn" class="btn">عرض التهنئة 🎉</button>
+        <div class="age-badge" id="ageBadge">هيبقى عمرك: <span id="ageNum">0</span> سنة</div>
+      </div>
+
+      <div class="final" id="finalArea" style="display:none">
+        <h2 id="finalTitle">كل سنة وأنت طيب يا بابا الغالي 💙</h2>
+        <p id="finalText">ربنا يكرمك ويسعدك في كل لحظة، ويخليك لينا دايمًا مصدر أمان وسند. 🎂</p>
+        
+      </div>
+    </div>
+
+    <!-- RIGHT: side panel -->
+    <aside class="side-card" aria-label="تفاصيل ووسائط">
+      <img id="dadPhoto" class="photo" alt="صورة الأب" src="Photo.jpg" onerror="this.style.display='none'; document.getElementById('ph').style.display='flex'">
+      <div id="ph" class="photo-placeholder" style="display:none">ضع صورة الأب في نفس مجلد الملف وسمّها <strong>dad.jpg</strong></div>
+
+      <div class="age-badge" style="margin-top:12px">مواليد: <strong id="birthYear">1984</strong> — تاريخ: <strong id="birthDate">30 / 10</strong></div>
+
+      <div class="note" id="noteArea">الاحتفال يوم: <strong id="eventDate">30 أكتوبر</strong> — هيبقى عمرك <strong id="ageNext">41</strong> سنة.</div>
+
+
+    </aside>
+
+  </div>
+
+<script>
+const BIRTH_YEAR = 1984;
+const BIRTH_MONTH = 10;
+const BIRTH_DAY = 30;
+
+const cdDays = document.getElementById('cd_days');
+const cdHours = document.getElementById('cd_hours');
+const cdMinutes = document.getElementById('cd_minutes');
+const cdSeconds = document.getElementById('cd_seconds');
+const ageNum = document.getElementById('ageNum');
+const ageNext = document.getElementById('ageNext');
+const revealBtn = document.getElementById('revealBtn');
+const finalArea = document.getElementById('finalArea');
+const downloadBtn = document.getElementById('downloadBtn');
+
+function nextBirthday() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const candidate = new Date(year, BIRTH_MONTH - 1, BIRTH_DAY);
+  return candidate <= now ? new Date(year + 1, BIRTH_MONTH - 1, BIRTH_DAY) : candidate;
+}
+
+function calcDiff(target) {
+  const now = new Date();
+  let diff = target - now;
+  if (diff < 0) diff = 0;
+  const days = Math.floor(diff / (24 * 3600 * 1000));
+  diff -= days * 24 * 3600 * 1000;
+  const hours = Math.floor(diff / (3600 * 1000));
+  diff -= hours * 3600 * 1000;
+  const minutes = Math.floor(diff / (60 * 1000));
+  diff -= minutes * 60 * 1000;
+  const seconds = Math.floor(diff / 1000);
+  return { days, hours, minutes, seconds };
+}
+
+function computeAges() {
+  const now = new Date();
+  const currentAge = now.getFullYear() - BIRTH_YEAR - ((now.getMonth() + 1 < BIRTH_MONTH || (now.getMonth() + 1 === BIRTH_MONTH && now.getDate() < BIRTH_DAY)) ? 1 : 0);
+  const nextAge = currentAge + 1;
+  return { currentAge, nextAge };
+}
+
+(function init() {
+  document.getElementById('birthYear').textContent = BIRTH_YEAR;
+  document.getElementById('birthDate').textContent = `${String(BIRTH_DAY).padStart(2, '0')} / ${String(BIRTH_MONTH).padStart(2, '0')}`;
+  const ages = computeAges();
+  ageNum.textContent = ages.currentAge;
+  ageNext.textContent = ages.nextAge;
+
+  function tick() {
+    const target = nextBirthday();
+    const diff = calcDiff(target);
+    cdDays.textContent = diff.days;
+    cdHours.textContent = diff.hours;
+    cdMinutes.textContent = diff.minutes;
+    cdSeconds.textContent = diff.seconds;
+  }
+  tick();
+  setInterval(tick, 1000);
+})();
+
+revealBtn.addEventListener('click', () => {
+  finalArea.style.display = 'block';
+});
+
+downloadBtn.addEventListener('click', async () => {
+  try {
+    const node = document.querySelector('.main-card');
+    const rect = node.getBoundingClientRect();
+    const svg = `
+      <svg xmlns='http://www.w3.org/2000/svg' width='${rect.width}' height='${rect.height}'>
+        <foreignObject width='100%' height='100%'>
+          ${new XMLSerializer().serializeToString(node)}
+        </foreignObject>
+      </svg>`;
+    const blob = new Blob([svg], { type: 'image/svg+xml;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const img = new Image();
+    img.onload = function() {
+      const c = document.createElement('canvas');
+      c.width = rect.width; c.height = rect.height;
+      const ctx = c.getContext('2d');
+      ctx.fillStyle = getComputedStyle(document.body).background || '#fff';
+      ctx.fillRect(0, 0, c.width, c.height);
+      ctx.drawImage(img, 0, 0);
+      URL.revokeObjectURL(url);
+      c.toBlob(function(blobImg) {
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blobImg);
+        a.download = 'dad_birthday.png';
+        a.click();
+      });
+    };
+    img.src = url;
+  } catch(e) {
+    alert('تعذّر تحميل الصورة. يمكنك تصوير الشاشة بدلًا من ذلك.');
+  }
+});
+</script>
+</body>
+</html>
